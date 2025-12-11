@@ -2,11 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Isso aqui garante que o fundo seja sempre escuro, mesmo com zoom */
+
 body {
   margin: 0;
   padding: 0;
-  background-color: #020617; /* Cor escura (Slate 950) */
+  background-color: #020617; 
   color: white;
   min-height: 100vh;
   width: 100%;
