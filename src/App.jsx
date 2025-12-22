@@ -287,7 +287,7 @@ function App() {
             <div className="flex items-center gap-2 text-sm text-slate-600">
                 <span>Desenvolvido por</span>
                 <a 
-                  href="https://www.linkedin.com/in/raphael-yankous-machado-clemente-7bb750191/" 
+                  href="https://dev-yankous.vercel.app/" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="group hover:text-white transition-colors font-mono"
