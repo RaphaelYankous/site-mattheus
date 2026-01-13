@@ -1,13 +1,19 @@
+import React, { useCallback, useState, useEffect } from 'react';
+import Particles from "react-particles";
+import { loadSlim } from "tsparticles-slim";
+import { motion } from 'framer-motion';
+import { 
+  TrendingUp, Shield, GraduationCap, ChevronRight, Mail, Linkedin, 
+  Clock, Briefcase, BookOpen, MessageCircle, Award, Heart, ArrowUpRight 
+} from 'lucide-react';
+
+// --- IMPORTS DE IMAGENS ---
 import mattheusOne from './assets/mattheus-one.jpg';
 import mattheusSelfie from './assets/mattheus-selfie.jpg';
 import mattheusFoto from './assets/mattheus-foto.png';
 import mattheusCasal from './assets/mattheus-casal.jpg';
-import React, { useCallback } from 'react';
-import Particles from "react-particles";
-import { loadSlim } from "tsparticles-slim";
-import { motion } from 'framer-motion';
-import { TrendingUp, Shield, GraduationCap, ChevronRight, Mail, Linkedin, Clock, Briefcase, BookOpen, MessageCircle, Award, Heart } from 'lucide-react';
 
+// --- COMPONENTE TÍTULO DE SEÇÃO ---
 const SectionTitle = ({ subtitle, title }) => (
   <motion.div 
     initial={{ opacity: 0, y: 20 }}
@@ -21,6 +27,217 @@ const SectionTitle = ({ subtitle, title }) => (
   </motion.div>
 );
 
+// --- COMPONENTE CALCULADORA ---
+const CalculadoraSection = () => {
+  const [initial, setInitial] = useState(1000);
+  const [monthly, setMonthly] = useState(500);
+  const [rate, setRate] = useState(10); // Taxa anual
+  const [years, setYears] = useState(10);
+  const [result, setResult] = useState({ total: 0, invested: 0, interest: 0 });
+
+  useEffect(() => {
+    const r = rate / 100 / 12; // Taxa mensal
+    const n = years * 12; // Meses
+
+    // Fórmula Juros Compostos com Aporte Mensal
+    const futureValueInitial = initial * Math.pow(1 + r, n);
+    const futureValueMonthly = monthly * ((Math.pow(1 + r, n) - 1) / r);
+    
+    const total = futureValueInitial + futureValueMonthly;
+    const invested = initial + (monthly * n);
+    const interest = total - invested;
+
+    setResult({ total, invested, interest });
+  }, [initial, monthly, rate, years]);
+
+  const formatCurrency = (value) => {
+    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
+  };
+
+  return (
+    <section id="calculadora" className="py-24 relative z-10 bg-gradient-to-b from-[#0B0F19] to-[#05080f] border-t border-white/5">
+      <div className="container mx-auto px-6">
+        <SectionTitle subtitle="Simulação" title="Calculadora de Juros Compostos" />
+        
+        <div className="grid lg:grid-cols-2 gap-12 items-start">
+          {/* Inputs */}
+          <motion.div 
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="space-y-6 bg-white/[0.02] p-8 rounded-2xl border border-white/5 backdrop-blur-sm"
+          >
+            <div>
+              <label className="block text-sm font-bold text-slate-400 mb-2">Valor Inicial (R$)</label>
+              <input 
+                type="number" 
+                value={initial} 
+                onChange={(e) => setInitial(Number(e.target.value))}
+                className="w-full bg-[#0B0F19] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-yellow-500 transition-colors"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-bold text-slate-400 mb-2">Aporte Mensal (R$)</label>
+              <input 
+                type="number" 
+                value={monthly} 
+                onChange={(e) => setMonthly(Number(e.target.value))}
+                className="w-full bg-[#0B0F19] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-yellow-500 transition-colors"
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-bold text-slate-400 mb-2">Taxa Anual (%)</label>
+                <input 
+                  type="number" 
+                  value={rate} 
+                  onChange={(e) => setRate(Number(e.target.value))}
+                  className="w-full bg-[#0B0F19] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-yellow-500 transition-colors"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-slate-400 mb-2">Tempo (Anos)</label>
+                <input 
+                  type="number" 
+                  value={years} 
+                  onChange={(e) => setYears(Number(e.target.value))}
+                  className="w-full bg-[#0B0F19] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-yellow-500 transition-colors"
+                />
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Resultados */}
+          <motion.div 
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="bg-gradient-to-br from-yellow-500/10 to-transparent p-8 rounded-2xl border border-yellow-500/20 relative overflow-hidden"
+          >
+            <div className="absolute top-0 right-0 p-32 bg-yellow-500/10 blur-[80px] rounded-full pointer-events-none"></div>
+            
+            <h3 className="text-xl font-bold text-white mb-8 flex items-center gap-2">
+              Resultado Estimado
+            </h3>
+
+            <div className="space-y-6 relative z-10">
+              <div className="p-4 rounded-xl bg-[#0B0F19]/50 border border-white/5">
+                <p className="text-slate-400 text-xs uppercase tracking-wider mb-1">Total Acumulado</p>
+                <p className="text-3xl md:text-4xl font-bold text-white">{formatCurrency(result.total)}</p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="p-4 rounded-xl bg-[#0B0F19]/30 border border-white/5">
+                  <p className="text-slate-400 text-xs uppercase tracking-wider mb-1">Total Investido</p>
+                  <p className="text-lg font-bold text-slate-200">{formatCurrency(result.invested)}</p>
+                </div>
+                <div className="p-4 rounded-xl bg-[#0B0F19]/30 border border-yellow-500/20">
+                  <p className="text-yellow-500/80 text-xs uppercase tracking-wider mb-1">Total em Juros</p>
+                  <p className="text-lg font-bold text-yellow-500">{formatCurrency(result.interest)}</p>
+                </div>
+              </div>
+              
+              <div className="mt-6 pt-6 border-t border-white/10">
+                <p className="text-slate-500 text-sm">
+                  *Esta é uma simulação baseada na taxa constante informada. Rentabilidade passada não é garantia de rentabilidade futura.
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// --- COMPONENTE BLOG ---
+const BlogSection = () => {
+  const posts = [
+    {
+      category: "Investimentos",
+      title: "Por que a Renda Fixa voltou a valer a pena?",
+      excerpt: "Entenda como o cenário atual de juros impacta diretamente o retorno dos seus títulos públicos e privados.",
+      date: "12 Jan, 2025",
+      image: "https://images.unsplash.com/photo-1611974765270-ca1258634369?q=80&w=800&auto=format&fit=crop"
+    },
+    {
+      category: "Mindset",
+      title: "O erro número 1 do investidor iniciante",
+      excerpt: "A ansiedade por resultados rápidos pode destruir seu patrimônio. Veja como cultivar a paciência estratégica.",
+      date: "05 Jan, 2025",
+      image: "https://images.unsplash.com/photo-1579532537598-459ecdaf39cc?q=80&w=800&auto=format&fit=crop"
+    },
+    {
+      category: "Mercado",
+      title: "Dólar e Bolsa: O que esperar para o próximo semestre?",
+      excerpt: "Uma análise técnica e fundamentalista sobre os movimentos globais que podem afetar sua carteira.",
+      date: "28 Dez, 2024",
+      image: "https://images.unsplash.com/photo-1642543492481-44e81e3914a7?q=80&w=800&auto=format&fit=crop"
+    }
+  ];
+
+  return (
+    <section id="blog" className="py-24 relative z-10 bg-[#0B0F19]">
+      <div className="container mx-auto px-6">
+        <div className="flex justify-between items-end mb-12">
+          <SectionTitle subtitle="Conhecimento" title="Últimos Artigos" />
+          <a href="#" className="hidden md:flex items-center gap-2 text-yellow-500 font-bold hover:text-yellow-400 transition-colors">
+            Ver todos os posts <ArrowUpRight size={18} />
+          </a>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-8">
+          {posts.map((post, idx) => (
+            <motion.div 
+              key={idx}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: idx * 0.1 }}
+              viewport={{ once: true }}
+              className="group rounded-2xl overflow-hidden bg-white/[0.02] border border-white/5 hover:border-yellow-500/30 transition-all duration-300 flex flex-col h-full"
+            >
+              <div className="h-48 overflow-hidden relative">
+                <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-all z-10"></div>
+                <img src={post.image} alt={post.title} className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" />
+                <div className="absolute top-4 left-4 z-20">
+                  <span className="bg-yellow-500 text-[#0B0F19] text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                    {post.category}
+                  </span>
+                </div>
+              </div>
+              
+              <div className="p-6 flex flex-col flex-grow">
+                <div className="flex items-center gap-2 text-slate-500 text-xs mb-3">
+                  <Clock size={14} /> {post.date}
+                </div>
+                <h3 className="text-xl font-bold text-white mb-3 group-hover:text-yellow-500 transition-colors line-clamp-2">
+                  {post.title}
+                </h3>
+                <p className="text-slate-400 text-sm leading-relaxed mb-6 line-clamp-3">
+                  {post.excerpt}
+                </p>
+                <div className="mt-auto pt-4 border-t border-white/5 flex items-center justify-between">
+                  <span className="text-sm font-bold text-white group-hover:underline decoration-yellow-500 underline-offset-4 transition-all">Ler artigo</span>
+                  <ArrowUpRight size={18} className="text-slate-500 group-hover:text-yellow-500 transition-colors" />
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+        
+        <div className="mt-8 text-center md:hidden">
+          <a href="#" className="inline-flex items-center gap-2 text-yellow-500 font-bold hover:text-yellow-400 transition-colors">
+            Ver todos os posts <ArrowUpRight size={18} />
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// --- COMPONENTE PRINCIPAL (APP) ---
 function App() {
 
   const particlesInit = useCallback(async engine => {
@@ -124,7 +341,7 @@ function App() {
         </div>
       </section>
 
-{/* --- PROPÓSITO (FOTO CASAL) --- */}
+      {/* --- PROPÓSITO (FOTO CASAL) --- */}
       <section id="sobre" className="py-24 relative z-10 bg-[#0B0F19]">
         <div className="container mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
           
@@ -138,7 +355,6 @@ function App() {
           >
             <div className="absolute inset-0 bg-gradient-to-bl from-yellow-500/20 to-transparent rounded-2xl blur-2xl -z-10"></div>
             <div className="rounded-2xl overflow-hiddenHJ border border-white/10 shadow-2xl relative">
-              {/* REMOVIDO O GRAYSCALE AQUI */}
               <img src={mattheusCasal} alt="Mattheus Casal" className="w-full h-full object-cover transition-all duration-700" />
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#0B0F19] to-transparent p-6 pt-20">
                 <p className="text-white font-bold flex items-center gap-2"><Heart size={18} className="text-yellow-500" /> Vida Real</p>
@@ -165,7 +381,7 @@ function App() {
         </div>
       </section>
       
-{/* --- TRAJETÓRIA (FOTO ONE) --- */}
+      {/* --- TRAJETÓRIA (FOTO ONE) --- */}
       <section className="py-24 relative z-10 bg-gradient-to-b from-[#0B0F19] to-[#05080f] border-t border-white/5">
         <div className="container mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
           
@@ -213,7 +429,6 @@ function App() {
           >
             <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-transparent rounded-2xl blur-2xl -z-10"></div>
             <div className="rounded-2xl overflow-hidden border border-white/10 shadow-2xl -rotate-2 hover:rotate-0 transition-all duration-500">
-              {/* REMOVIDO O GRAYSCALE AQUI */}
               <img src={mattheusOne} alt="Mattheus na ONE" className="w-full h-full object-cover transition-all duration-700" />
             </div>
           </motion.div>
@@ -268,6 +483,12 @@ function App() {
         </div>
       </section>
 
+      {/* --- NOVA SEÇÃO: CALCULADORA --- */}
+      <CalculadoraSection />
+
+      {/* --- NOVA SEÇÃO: BLOG --- */}
+      <BlogSection />
+
       {/* --- FOOTER --- */}
       <footer id="contato" className="py-20 border-t border-white/5 bg-[#030508] relative z-10">
         <div className="container mx-auto px-6 text-center">
@@ -284,6 +505,8 @@ function App() {
           <p className="text-slate-700 text-xs">© 2025 Mattheus Tubertini.</p>
         </div>
       </footer>
+
+      {/* --- BOTÕES FLUTUANTES --- */}
       <a 
         href="https://www.instagram.com/mattheustubertini/" 
         target="_blank" 
