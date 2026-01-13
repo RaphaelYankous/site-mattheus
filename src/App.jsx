@@ -7,6 +7,9 @@ import {
   Clock, Briefcase, BookOpen, MessageCircle, Award, Heart, ArrowUpRight 
 } from 'lucide-react';
 
+// --- IMPORT DA NOVA CALCULADORA ---
+import CalculadoraPro from './CalculadoraPro';
+
 // --- IMPORTS DE IMAGENS ---
 import mattheusOne from './assets/mattheus-one.jpg';
 import mattheusSelfie from './assets/mattheus-selfie.jpg';
@@ -26,131 +29,6 @@ const SectionTitle = ({ subtitle, title }) => (
     <h2 className="text-3xl md:text-4xl font-bold text-white mt-2">{title}</h2>
   </motion.div>
 );
-
-// --- COMPONENTE CALCULADORA ---
-const CalculadoraSection = () => {
-  const [initial, setInitial] = useState(1000);
-  const [monthly, setMonthly] = useState(500);
-  const [rate, setRate] = useState(10); // Taxa anual
-  const [years, setYears] = useState(10);
-  const [result, setResult] = useState({ total: 0, invested: 0, interest: 0 });
-
-  useEffect(() => {
-    const r = rate / 100 / 12; // Taxa mensal
-    const n = years * 12; // Meses
-
-    // Fórmula Juros Compostos com Aporte Mensal
-    const futureValueInitial = initial * Math.pow(1 + r, n);
-    const futureValueMonthly = monthly * ((Math.pow(1 + r, n) - 1) / r);
-    
-    const total = futureValueInitial + futureValueMonthly;
-    const invested = initial + (monthly * n);
-    const interest = total - invested;
-
-    setResult({ total, invested, interest });
-  }, [initial, monthly, rate, years]);
-
-  const formatCurrency = (value) => {
-    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
-  };
-
-  return (
-    <section id="calculadora" className="py-24 relative z-10 bg-gradient-to-b from-[#0B0F19] to-[#05080f] border-t border-white/5">
-      <div className="container mx-auto px-6">
-        <SectionTitle subtitle="Simulação" title="Calculadora de Juros Compostos" />
-        
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
-          {/* Inputs */}
-          <motion.div 
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="space-y-6 bg-white/[0.02] p-8 rounded-2xl border border-white/5 backdrop-blur-sm"
-          >
-            <div>
-              <label className="block text-sm font-bold text-slate-400 mb-2">Valor Inicial (R$)</label>
-              <input 
-                type="number" 
-                value={initial} 
-                onChange={(e) => setInitial(Number(e.target.value))}
-                className="w-full bg-[#0B0F19] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-yellow-500 transition-colors"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-bold text-slate-400 mb-2">Aporte Mensal (R$)</label>
-              <input 
-                type="number" 
-                value={monthly} 
-                onChange={(e) => setMonthly(Number(e.target.value))}
-                className="w-full bg-[#0B0F19] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-yellow-500 transition-colors"
-              />
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-bold text-slate-400 mb-2">Taxa Anual (%)</label>
-                <input 
-                  type="number" 
-                  value={rate} 
-                  onChange={(e) => setRate(Number(e.target.value))}
-                  className="w-full bg-[#0B0F19] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-yellow-500 transition-colors"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-bold text-slate-400 mb-2">Tempo (Anos)</label>
-                <input 
-                  type="number" 
-                  value={years} 
-                  onChange={(e) => setYears(Number(e.target.value))}
-                  className="w-full bg-[#0B0F19] border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-yellow-500 transition-colors"
-                />
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Resultados */}
-          <motion.div 
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="bg-gradient-to-br from-yellow-500/10 to-transparent p-8 rounded-2xl border border-yellow-500/20 relative overflow-hidden"
-          >
-            <div className="absolute top-0 right-0 p-32 bg-yellow-500/10 blur-[80px] rounded-full pointer-events-none"></div>
-            
-            <h3 className="text-xl font-bold text-white mb-8 flex items-center gap-2">
-              Resultado Estimado
-            </h3>
-
-            <div className="space-y-6 relative z-10">
-              <div className="p-4 rounded-xl bg-[#0B0F19]/50 border border-white/5">
-                <p className="text-slate-400 text-xs uppercase tracking-wider mb-1">Total Acumulado</p>
-                <p className="text-3xl md:text-4xl font-bold text-white">{formatCurrency(result.total)}</p>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div className="p-4 rounded-xl bg-[#0B0F19]/30 border border-white/5">
-                  <p className="text-slate-400 text-xs uppercase tracking-wider mb-1">Total Investido</p>
-                  <p className="text-lg font-bold text-slate-200">{formatCurrency(result.invested)}</p>
-                </div>
-                <div className="p-4 rounded-xl bg-[#0B0F19]/30 border border-yellow-500/20">
-                  <p className="text-yellow-500/80 text-xs uppercase tracking-wider mb-1">Total em Juros</p>
-                  <p className="text-lg font-bold text-yellow-500">{formatCurrency(result.interest)}</p>
-                </div>
-              </div>
-              
-              <div className="mt-6 pt-6 border-t border-white/10">
-                <p className="text-slate-500 text-sm">
-                  *Esta é uma simulação baseada na taxa constante informada. Rentabilidade passada não é garantia de rentabilidade futura.
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </div>
-    </section>
-  );
-};
 
 // --- COMPONENTE BLOG ---
 const BlogSection = () => {
@@ -483,10 +361,10 @@ function App() {
         </div>
       </section>
 
-      {/* --- NOVA SEÇÃO: CALCULADORA --- */}
-      <CalculadoraSection />
+      {/* --- NOVA SEÇÃO: CALCULADORA PRO --- */}
+      <CalculadoraPro />
 
-      {/* --- NOVA SEÇÃO: BLOG --- */}
+      {/* --- SEÇÃO: BLOG --- */}
       <BlogSection />
 
       {/* --- FOOTER --- */}
