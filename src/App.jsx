@@ -354,7 +354,11 @@ function App() {
             className="relative"
           >
             <div className="absolute inset-0 bg-gradient-to-bl from-yellow-500/20 to-transparent rounded-2xl blur-2xl -z-10"></div>
+<<<<<<< HEAD
             <div className="rounded-2xl overflow-hiddenHJ border border-white/10 shadow-2xl relative">
+=======
+            <div className="rounded-2xl overflow-hidden border border-white/10 shadow-2xl relative">
+>>>>>>> 4bf517cb1197452d0f842ff801246f36991afe57
               <img src={mattheusCasal} alt="Mattheus Casal" className="w-full h-full object-cover transition-all duration-700" />
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#0B0F19] to-transparent p-6 pt-20">
                 <p className="text-white font-bold flex items-center gap-2"><Heart size={18} className="text-yellow-500" /> Vida Real</p>
@@ -502,7 +506,26 @@ function App() {
               <Linkedin size={20} /> Ver LinkedIn
             </a>
           </div>
-          <p className="text-slate-700 text-xs">© 2025 Mattheus Tubertini.</p>
+          
+          {/* --- BARRA INFERIOR --- */}
+          <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-slate-700 text-xs">© 2025 Mattheus Tubertini.</p>
+            
+            <div className="flex items-center gap-2 text-sm text-slate-600">
+                <span>Desenvolvido por</span>
+                <a 
+                  href="https://www.yankousdevweb.com.br/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="group hover:text-white transition-colors font-mono"
+                >
+                  <span className="text-yellow-500 transition-colors">&lt;</span> 
+                  Raphael Yankous 
+                  <span className="text-yellow-500 transition-colors">/&gt;</span>
+                </a>
+            </div>
+          </div>
+
         </div>
       </footer>
 
