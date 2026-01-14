@@ -7,8 +7,9 @@ import {
   Clock, Briefcase, BookOpen, MessageCircle, Award, Heart, ArrowUpRight 
 } from 'lucide-react';
 
-// --- IMPORT DA NOVA CALCULADORA ---
+// --- IMPORTS DOS COMPONENTES NOVOS ---
 import CalculadoraPro from './CalculadoraPro';
+import BlogDynamic from './BlogDynamic'; // <--- IMPORTANTE
 
 // --- IMPORTS DE IMAGENS ---
 import mattheusOne from './assets/mattheus-one.jpg';
@@ -30,90 +31,7 @@ const SectionTitle = ({ subtitle, title }) => (
   </motion.div>
 );
 
-// --- COMPONENTE BLOG ---
-const BlogSection = () => {
-  const posts = [
-    {
-      category: "Investimentos",
-      title: "Por que a Renda Fixa voltou a valer a pena?",
-      excerpt: "Entenda como o cenário atual de juros impacta diretamente o retorno dos seus títulos públicos e privados.",
-      date: "12 Jan, 2025",
-      image: "https://images.unsplash.com/photo-1611974765270-ca1258634369?q=80&w=800&auto=format&fit=crop"
-    },
-    {
-      category: "Mindset",
-      title: "O erro número 1 do investidor iniciante",
-      excerpt: "A ansiedade por resultados rápidos pode destruir seu patrimônio. Veja como cultivar a paciência estratégica.",
-      date: "05 Jan, 2025",
-      image: "https://images.unsplash.com/photo-1579532537598-459ecdaf39cc?q=80&w=800&auto=format&fit=crop"
-    },
-    {
-      category: "Mercado",
-      title: "Dólar e Bolsa: O que esperar para o próximo semestre?",
-      excerpt: "Uma análise técnica e fundamentalista sobre os movimentos globais que podem afetar sua carteira.",
-      date: "28 Dez, 2024",
-      image: "https://images.unsplash.com/photo-1642543492481-44e81e3914a7?q=80&w=800&auto=format&fit=crop"
-    }
-  ];
-
-  return (
-    <section id="blog" className="py-24 relative z-10 bg-[#0B0F19]">
-      <div className="container mx-auto px-6">
-        <div className="flex justify-between items-end mb-12">
-          <SectionTitle subtitle="Conhecimento" title="Últimos Artigos" />
-          <a href="#" className="hidden md:flex items-center gap-2 text-yellow-500 font-bold hover:text-yellow-400 transition-colors">
-            Ver todos os posts <ArrowUpRight size={18} />
-          </a>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-8">
-          {posts.map((post, idx) => (
-            <motion.div 
-              key={idx}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: idx * 0.1 }}
-              viewport={{ once: true }}
-              className="group rounded-2xl overflow-hidden bg-white/[0.02] border border-white/5 hover:border-yellow-500/30 transition-all duration-300 flex flex-col h-full"
-            >
-              <div className="h-48 overflow-hidden relative">
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-all z-10"></div>
-                <img src={post.image} alt={post.title} className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" />
-                <div className="absolute top-4 left-4 z-20">
-                  <span className="bg-yellow-500 text-[#0B0F19] text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
-                    {post.category}
-                  </span>
-                </div>
-              </div>
-              
-              <div className="p-6 flex flex-col flex-grow">
-                <div className="flex items-center gap-2 text-slate-500 text-xs mb-3">
-                  <Clock size={14} /> {post.date}
-                </div>
-                <h3 className="text-xl font-bold text-white mb-3 group-hover:text-yellow-500 transition-colors line-clamp-2">
-                  {post.title}
-                </h3>
-                <p className="text-slate-400 text-sm leading-relaxed mb-6 line-clamp-3">
-                  {post.excerpt}
-                </p>
-                <div className="mt-auto pt-4 border-t border-white/5 flex items-center justify-between">
-                  <span className="text-sm font-bold text-white group-hover:underline decoration-yellow-500 underline-offset-4 transition-all">Ler artigo</span>
-                  <ArrowUpRight size={18} className="text-slate-500 group-hover:text-yellow-500 transition-colors" />
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-        
-        <div className="mt-8 text-center md:hidden">
-          <a href="#" className="inline-flex items-center gap-2 text-yellow-500 font-bold hover:text-yellow-400 transition-colors">
-            Ver todos os posts <ArrowUpRight size={18} />
-          </a>
-        </div>
-      </div>
-    </section>
-  );
-};
+// (A antiga BlogSection pode ser apagada daqui, pois agora usamos o arquivo separado)
 
 // --- COMPONENTE PRINCIPAL (APP) ---
 function App() {
@@ -157,7 +75,7 @@ function App() {
             Mattheus<span className="text-yellow-500">Tubertini</span>
           </div>
           <a href="https://wa.me/553196590609" className="bg-yellow-500 hover:bg-yellow-400 text-[#0B0F19] font-bold py-2 px-6 rounded-full transition-all text-sm shadow-lg shadow-yellow-500/20">
-            Falar no WhatsApp
+            Fazer diagnostico financeiro
           </a>
         </div>
       </nav>
@@ -176,7 +94,7 @@ function App() {
               </span>
             </h1>
             <p className="text-slate-400 text-lg mb-8 leading-relaxed max-w-lg border-l-2 border-yellow-500/50 pl-6">
-              Uno a teoria econômica, a prática de Trader e a didática de professor para você investir com segurança e autonomia.
+              Inteligência financeira a serviço do que realmente importa: o seu tempo.
             </p>
             <a href="#servicos" className="bg-white text-[#0B0F19] font-bold py-4 px-8 rounded-lg inline-flex items-center gap-2 transition-all hover:bg-slate-200 shadow-xl">
               Conhecer Soluções <ChevronRight size={18} />
@@ -191,7 +109,7 @@ function App() {
         </div>
       </section>
 
-      {/* --- CREDENCIAIS (BARRA DE AUTORIDADE) --- */}
+      {/* --- CREDENCIAIS --- */}
       <section className="border-y border-white/5 bg-white/[0.02] backdrop-blur-md relative z-10">
         <div className="container mx-auto px-6 py-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-white/5">
@@ -219,11 +137,9 @@ function App() {
         </div>
       </section>
 
-      {/* --- PROPÓSITO (FOTO CASAL) --- */}
+      {/* --- PROPÓSITO --- */}
       <section id="sobre" className="py-24 relative z-10 bg-[#0B0F19]">
         <div className="container mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
-          
-          {/* Foto animada vindo da esquerda */}
           <motion.div 
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -240,7 +156,6 @@ function App() {
             </div>
           </motion.div>
 
-          {/* Texto animado vindo da direita */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -248,21 +163,20 @@ function App() {
             viewport={{ once: true }}
           >
             <span className="text-yellow-500 font-bold tracking-widest uppercase text-sm">Meu Propósito</span>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mt-2 mb-6">Mais que números, <br/>construir sonhos.</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-white mt-2 mb-6">Mais que números, <br/>liberdade de escolha.</h2>
             <p className="text-slate-400 text-lg leading-relaxed mb-6 border-l-2 border-yellow-500/30 pl-4">
-              "Sou apaixonado por ajudar pessoas a acreditarem em seus próprios potenciais e conquistarem a liberdade para viver o que realmente importa."
+              "Eu ajudo pessoas a organizarem suas decisões financeiras de forma clara e consciente."
             </p>
             <p className="text-slate-400 mb-6">
-              Minha missão não é apenas fazer seu dinheiro render, mas te dar a tranquilidade e a autonomia necessárias para você focar na sua família, nos seus hobbies e no seu futuro, sem a ansiedade financeira.
+              Meu trabalho é transformar esse caos em um sistema claro e funcional, para que você tenha mais autonomia, reduza a ansiedade e recupere tempo para o que realmente gera valor na sua vida.
             </p>
           </motion.div>
         </div>
       </section>
       
-      {/* --- TRAJETÓRIA (FOTO ONE) --- */}
+      {/* --- TRAJETÓRIA --- */}
       <section className="py-24 relative z-10 bg-gradient-to-b from-[#0B0F19] to-[#05080f] border-t border-white/5">
         <div className="container mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
-          
           <motion.div 
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -272,23 +186,20 @@ function App() {
           >
             <span className="text-yellow-500 font-bold tracking-widest uppercase text-sm">Trajetória Sólida</span>
             <h2 className="text-3xl md:text-4xl font-bold text-white mt-2 mb-8">Do "Skin in the Game"<br/>à Sala de Aula.</h2>
-            
             <div className="space-y-8 relative before:absolute before:left-6 before:top-2 before:bottom-2 before:w-[1px] before:bg-gradient-to-b before:from-yellow-500 before:to-transparent">
-              {/* Item 1 */}
               <div className="relative pl-16 group">
                 <div className="absolute left-4 top-1 w-4 h-4 rounded-full bg-[#0B0F19] border-2 border-yellow-500 group-hover:shadow-[0_0_10px_rgba(212,175,55,0.8)] transition-all"></div>
                 <h3 className="text-white font-bold text-lg group-hover:text-yellow-500 transition-colors">Trader & Mesa Proprietária</h3>
                 <p className="text-slate-500 text-sm">One Investimentos | WM Manhattan (Desde 2018)</p>
+                <p className="text-slate-500 text-sm">Trader - Escritório do BTG Pactual</p>
                 <p className="text-slate-600 text-sm mt-2 leading-relaxed">Vivência prática operando capital real, gestão de risco e retorno sob pressão.</p>
               </div>
-              {/* Item 2 */}
               <div className="relative pl-16 group">
                 <div className="absolute left-4 top-1 w-4 h-4 rounded-full bg-[#0B0F19] border-2 border-yellow-500 group-hover:shadow-[0_0_10px_rgba(212,175,55,0.8)] transition-all"></div>
                 <h3 className="text-white font-bold text-lg group-hover:text-yellow-500 transition-colors">Sócio & Gestão</h3>
                 <p className="text-slate-500 text-sm">Kairós Vellar | Flip Investimentos</p>
                 <p className="text-slate-600 text-sm mt-2 leading-relaxed">Experiência na estruturação de negócios e relacionamento com clientes.</p>
               </div>
-              {/* Item 3 */}
               <div className="relative pl-16 group">
                 <div className="absolute left-4 top-1 w-4 h-4 rounded-full bg-[#0B0F19] border-2 border-yellow-500 group-hover:shadow-[0_0_10px_rgba(212,175,55,0.8)] transition-all"></div>
                 <h3 className="text-white font-bold text-lg group-hover:text-yellow-500 transition-colors">Professor de Finanças</h3>
@@ -297,7 +208,6 @@ function App() {
               </div>
             </div>
           </motion.div>
-          
           <motion.div 
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -313,7 +223,7 @@ function App() {
         </div>
       </section>
 
-      {/* --- LIFESTYLE / CITAÇÃO (FOTO SELFIE) --- */}
+      {/* --- LIFESTYLE --- */}
       <section className="py-20 relative z-10 bg-[#05080f] border-y border-white/5">
         <div className="container mx-auto px-6">
           <div className="bg-gradient-to-r from-white/[0.03] to-transparent p-8 md:p-12 rounded-3xl border border-white/5 backdrop-blur-md flex flex-col md:flex-row gap-10 items-center relative overflow-hidden">
@@ -345,7 +255,7 @@ function App() {
                 key={idx} 
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: idx * 0.2 }} // Delay escalonado para efeito cascata
+                transition={{ duration: 0.5, delay: idx * 0.2 }}
                 viewport={{ once: true }}
                 whileHover={{ y: -10 }} 
                 className="group p-8 rounded-2xl bg-gradient-to-b from-white/[0.05] to-transparent border border-white/5 hover:border-yellow-500/30 backdrop-blur-md transition-all duration-300"
@@ -361,11 +271,11 @@ function App() {
         </div>
       </section>
 
-      {/* --- NOVA SEÇÃO: CALCULADORA PRO --- */}
+      {/* --- CALCULADORA PRO (NOVA) --- */}
       <CalculadoraPro />
 
-      {/* --- SEÇÃO: BLOG --- */}
-      <BlogSection />
+      {/* --- BLOG DINÂMICO (NOVO) --- */}
+      <BlogDynamic />
 
       {/* --- FOOTER --- */}
       <footer id="contato" className="py-20 border-t border-white/5 bg-[#030508] relative z-10">
