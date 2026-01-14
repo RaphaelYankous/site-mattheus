@@ -9,13 +9,23 @@ import {
 
 // --- IMPORTS DOS COMPONENTES NOVOS ---
 import CalculadoraPro from './CalculadoraPro';
-import BlogDynamic from './BlogDynamic'; // <--- IMPORTANTE
+import BlogDynamic from './BlogDynamic';
 
 // --- IMPORTS DE IMAGENS ---
 import mattheusOne from './assets/mattheus-one.jpg';
 import mattheusSelfie from './assets/mattheus-selfie.jpg';
 import mattheusFoto from './assets/mattheus-foto.png';
 import mattheusCasal from './assets/mattheus-casal.jpg';
+
+// --- CONFIGURAÇÃO DE ANIMAÇÃO (REUTILIZÁVEL) ---
+const fadeInUp = {
+  hidden: { opacity: 0, y: 60 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { duration: 0.8, ease: "easeOut" } 
+  }
+};
 
 // --- COMPONENTE TÍTULO DE SEÇÃO ---
 const SectionTitle = ({ subtitle, title }) => (
@@ -30,8 +40,6 @@ const SectionTitle = ({ subtitle, title }) => (
     <h2 className="text-3xl md:text-4xl font-bold text-white mt-2">{title}</h2>
   </motion.div>
 );
-
-// (A antiga BlogSection pode ser apagada daqui, pois agora usamos o arquivo separado)
 
 // --- COMPONENTE PRINCIPAL (APP) ---
 function App() {
@@ -75,12 +83,12 @@ function App() {
             Mattheus<span className="text-yellow-500">Tubertini</span>
           </div>
           <a href="https://wa.me/553196590609" className="bg-yellow-500 hover:bg-yellow-400 text-[#0B0F19] font-bold py-2 px-6 rounded-full transition-all text-sm shadow-lg shadow-yellow-500/20">
-            Fazer diagnostico financeiro
+            Falar no WhatsApp
           </a>
         </div>
       </nav>
 
-      {/* --- HERO SECTION --- */}
+      {/* --- HERO SECTION (Mantendo animações internas específicas) --- */}
       <section className="relative pt-36 pb-20 lg:pt-44 lg:pb-28 z-10">
         <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
@@ -94,7 +102,7 @@ function App() {
               </span>
             </h1>
             <p className="text-slate-400 text-lg mb-8 leading-relaxed max-w-lg border-l-2 border-yellow-500/50 pl-6">
-              Inteligência financeira a serviço do que realmente importa: o seu tempo.
+              Uno a teoria econômica, a prática de Trader e a didática de professor para você investir com segurança e autonomia.
             </p>
             <a href="#servicos" className="bg-white text-[#0B0F19] font-bold py-4 px-8 rounded-lg inline-flex items-center gap-2 transition-all hover:bg-slate-200 shadow-xl">
               Conhecer Soluções <ChevronRight size={18} />
@@ -109,8 +117,14 @@ function App() {
         </div>
       </section>
 
-      {/* --- CREDENCIAIS --- */}
-      <section className="border-y border-white/5 bg-white/[0.02] backdrop-blur-md relative z-10">
+      {/* --- CREDENCIAIS (Com nova animação de entrada) --- */}
+      <motion.section 
+        variants={fadeInUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        className="border-y border-white/5 bg-white/[0.02] backdrop-blur-md relative z-10"
+      >
         <div className="container mx-auto px-6 py-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-white/5">
             <div>
@@ -135,7 +149,7 @@ function App() {
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* --- PROPÓSITO --- */}
       <section id="sobre" className="py-24 relative z-10 bg-[#0B0F19]">
@@ -163,12 +177,12 @@ function App() {
             viewport={{ once: true }}
           >
             <span className="text-yellow-500 font-bold tracking-widest uppercase text-sm">Meu Propósito</span>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mt-2 mb-6">Mais que números, <br/>liberdade de escolha.</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-white mt-2 mb-6">Mais que números, <br/>construir sonhos.</h2>
             <p className="text-slate-400 text-lg leading-relaxed mb-6 border-l-2 border-yellow-500/30 pl-4">
-              "Eu ajudo pessoas a organizarem suas decisões financeiras de forma clara e consciente."
+              "Sou apaixonado por ajudar pessoas a acreditarem em seus próprios potenciais e conquistarem a liberdade para viver o que realmente importa."
             </p>
             <p className="text-slate-400 mb-6">
-              Meu trabalho é transformar esse caos em um sistema claro e funcional, para que você tenha mais autonomia, reduza a ansiedade e recupere tempo para o que realmente gera valor na sua vida.
+              Minha missão não é apenas fazer seu dinheiro render, mas te dar a tranquilidade e a autonomia necessárias para você focar na sua família, nos seus hobbies e no seu futuro, sem a ansiedade financeira.
             </p>
           </motion.div>
         </div>
@@ -191,7 +205,6 @@ function App() {
                 <div className="absolute left-4 top-1 w-4 h-4 rounded-full bg-[#0B0F19] border-2 border-yellow-500 group-hover:shadow-[0_0_10px_rgba(212,175,55,0.8)] transition-all"></div>
                 <h3 className="text-white font-bold text-lg group-hover:text-yellow-500 transition-colors">Trader & Mesa Proprietária</h3>
                 <p className="text-slate-500 text-sm">One Investimentos | WM Manhattan (Desde 2018)</p>
-                <p className="text-slate-500 text-sm">Trader - Escritório do BTG Pactual</p>
                 <p className="text-slate-600 text-sm mt-2 leading-relaxed">Vivência prática operando capital real, gestão de risco e retorno sob pressão.</p>
               </div>
               <div className="relative pl-16 group">
@@ -223,8 +236,14 @@ function App() {
         </div>
       </section>
 
-      {/* --- LIFESTYLE --- */}
-      <section className="py-20 relative z-10 bg-[#05080f] border-y border-white/5">
+      {/* --- LIFESTYLE (Com nova animação de entrada) --- */}
+      <motion.section 
+        variants={fadeInUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        className="py-20 relative z-10 bg-[#05080f] border-y border-white/5"
+      >
         <div className="container mx-auto px-6">
           <div className="bg-gradient-to-r from-white/[0.03] to-transparent p-8 md:p-12 rounded-3xl border border-white/5 backdrop-blur-md flex flex-col md:flex-row gap-10 items-center relative overflow-hidden">
             <div className="absolute -top-20 -left-20 w-64 h-64 bg-yellow-500/10 rounded-full blur-3xl"></div>
@@ -239,7 +258,7 @@ function App() {
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* --- SERVIÇOS --- */}
       <section id="servicos" className="py-24 relative z-10 bg-[#0B0F19]">
@@ -271,14 +290,35 @@ function App() {
         </div>
       </section>
 
-      {/* --- CALCULADORA PRO (NOVA) --- */}
-      <CalculadoraPro />
+      {/* --- CALCULADORA PRO (Com Wrapper Animado) --- */}
+      <motion.div
+        variants={fadeInUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.1 }}
+      >
+        <CalculadoraPro />
+      </motion.div>
 
-      {/* --- BLOG DINÂMICO (NOVO) --- */}
-      <BlogDynamic />
+      {/* --- BLOG DINÂMICO (Com Wrapper Animado) --- */}
+      <motion.div
+        variants={fadeInUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.1 }}
+      >
+        <BlogDynamic />
+      </motion.div>
 
-      {/* --- FOOTER --- */}
-      <footer id="contato" className="py-20 border-t border-white/5 bg-[#030508] relative z-10">
+      {/* --- FOOTER (Com nova animação de entrada) --- */}
+      <motion.footer 
+        id="contato" 
+        variants={fadeInUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.1 }}
+        className="py-20 border-t border-white/5 bg-[#030508] relative z-10"
+      >
         <div className="container mx-auto px-6 text-center">
           <h2 className="text-3xl font-bold mb-8 text-white">Vamos conversar?</h2>
           <p className="text-slate-400 mb-10 max-w-md mx-auto">Agende uma conversa inicial sem compromisso para entendermos o seu momento financeiro.</p>
@@ -292,7 +332,7 @@ function App() {
           </div>
           <p className="text-slate-700 text-xs">© 2025 Mattheus Tubertini.</p>
         </div>
-      </footer>
+      </motion.footer>
 
       {/* --- BOTÕES FLUTUANTES --- */}
       <a 
